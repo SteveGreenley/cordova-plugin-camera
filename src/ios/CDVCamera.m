@@ -351,6 +351,7 @@ static NSString* toBase64(NSData* data) {
                 data = UIImageJPEGRepresentation(image, 1.0);
             } else {
                 if (options.usesGeolocation) {
+                    data = UIImageJPEGRepresentation(image, [options.quality floatValue] / 100.0f);
                     NSDictionary* controllerMetadata = [info objectForKey:@"UIImagePickerControllerMediaMetadata"];
                     if (controllerMetadata) {
                         self.data = data;
@@ -366,8 +367,6 @@ static NSString* toBase64(NSData* data) {
                         }
                         [[self locationManager] startUpdatingLocation];
                     }
-                } else {
-                    data = UIImageJPEGRepresentation(image, [options.quality floatValue] / 100.0f);
                 }
             }
         }
@@ -512,9 +511,12 @@ static NSString* toBase64(NSData* data) {
         NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
             [self resultForImage:cameraPicker.pictureOptions info:info completion:^(CDVPluginResult* res) {
-                [weakSelf.commandDelegate sendPluginResult:res callbackId:cameraPicker.callbackId];
-                weakSelf.hasPendingOperation = NO;
-                weakSelf.pickerController = nil;
+                CDVPictureOptions* options = weakSelf.pickerController.pictureOptions;
+                if (!options.usesGeoLocation) {
+                    [weakSelf.commandDelegate sendPluginResult:res callbackId:cameraPicker.callbackId];
+                    weakSelf.hasPendingOperation = NO;
+                    weakSelf.pickerController = nil;
+                }
             }];
         }
         else {

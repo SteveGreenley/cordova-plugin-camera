@@ -350,8 +350,8 @@ static NSString* toBase64(NSData* data) {
                 // use image unedited as requested , don't resize
                 data = UIImageJPEGRepresentation(image, 1.0);
             } else {
+                data = UIImageJPEGRepresentation(image, [options.quality floatValue] / 100.0f);
                 if (options.usesGeolocation) {
-                    data = UIImageJPEGRepresentation(image, [options.quality floatValue] / 100.0f);
                     NSDictionary* controllerMetadata = [info objectForKey:@"UIImagePickerControllerMediaMetadata"];
                     if (controllerMetadata) {
                         self.data = data;
@@ -512,7 +512,7 @@ static NSString* toBase64(NSData* data) {
         if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
             [self resultForImage:cameraPicker.pictureOptions info:info completion:^(CDVPluginResult* res) {
                 CDVPictureOptions* options = weakSelf.pickerController.pictureOptions;
-                if (!options.usesGeoLocation) {
+                if (!options.usesGeolocation) {
                     [weakSelf.commandDelegate sendPluginResult:res callbackId:cameraPicker.callbackId];
                     weakSelf.hasPendingOperation = NO;
                     weakSelf.pickerController = nil;

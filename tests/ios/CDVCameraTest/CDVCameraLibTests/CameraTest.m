@@ -294,7 +294,7 @@
     targetSize = CGSizeMake(640, 480);
     
     targetImage = [sourceImagePortrait imageByScalingNotCroppingForSize:targetSize];
-    XCTAssertEqual(targetImage.size.width, targetSize.width);
+    XCTAssertLessThanOrEqual(targetImage.size.width, targetSize.width);
     XCTAssertEqual(targetImage.size.height, targetSize.height);
     
     targetImage = [sourceImageLandscape imageByScalingNotCroppingForSize:targetSize];
@@ -307,7 +307,7 @@
     targetSize = CGSizeMake(800, 600);
     
     targetImage = [sourceImagePortrait imageByScalingNotCroppingForSize:targetSize];
-    XCTAssertEqual(targetImage.size.width, targetSize.width);
+    XCTAssertLessThanOrEqual(targetImage.size.width, targetSize.width);
     XCTAssertEqual(targetImage.size.height, targetSize.height);
     
     targetImage = [sourceImageLandscape imageByScalingNotCroppingForSize:targetSize];
@@ -319,7 +319,7 @@
     targetSize = CGSizeMake(1024, 768);
     
     targetImage = [sourceImagePortrait imageByScalingNotCroppingForSize:targetSize];
-    XCTAssertEqual(targetImage.size.width, targetSize.width);
+    XCTAssertLessThanOrEqual(targetImage.size.width, targetSize.width);
     XCTAssertEqual(targetImage.size.height, targetSize.height);
     
     targetImage = [sourceImageLandscape imageByScalingNotCroppingForSize:targetSize];
